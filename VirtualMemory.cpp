@@ -85,7 +85,7 @@ bool Inspect_leaf(word_t cur_tb, word_t cur_virt, word_t &max_frame, Furthest &f
         PMread(this_line, &frame);
         if (frame != 0) {
             empty = false;
-            update_furthest(cur_virt, fr, frame, this_line);
+            update_furthest(cur_virt + i, fr, frame, this_line);
             if(frame > max_frame){
                 max_frame = frame;
             }
@@ -102,8 +102,8 @@ word_t inspect_table(const word_t keep,
                     word_t &max_frame,
                     Furthest &fr) {
     bool empty = true;
+    cur_virt = cur_virt << OFFSET_WIDTH;
     if(rec_depth < TABLES_DEPTH){
-        cur_virt = cur_virt << OFFSET_WIDTH;
         word_t next_tb;
         for (int i = 0; i < PAGE_SIZE; ++i) {
             Address this_line = GET_LINE(cur_tb, i);
